@@ -6,6 +6,7 @@ package com.urlshow.pinyin;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author 徐晨阳
@@ -64,7 +65,20 @@ public abstract class PinYin {
 		return getHAN_ZI().substring(getHAN_ZI().indexOf("[",i)+1,getHAN_ZI().indexOf("]",i));
 	}
 	/**
-	 * 返回声母
+	 * 根据类型、字符集将汉字转换成拼音
+	 * @param str 汉字
+	 * @param type 类型
+	 * @param charsetName 字符集
+	 * @return 拼音
+	 * @throws UnsupportedEncodingException 字符集错误
+	 */
+	public static String getPinYin(String str,int type,String charsetName) throws UnsupportedEncodingException{
+		if(charsetName==null||charsetName.length()==0||charsetName.toLowerCase().trim().equals("utf-8"))
+			return getPinYin(str, type);
+		return getPinYin(new String(str.getBytes(charsetName),"UTF-8"), type);
+	}
+	/**
+	 * 将汉字转换成声母
 	 * @param str 汉字
 	 * @return 声母
 	 */
@@ -72,7 +86,17 @@ public abstract class PinYin {
 		return getPinYin(str,SHENG_MU);
 	}
 	/**
-	 * 根据转换类型返回拼音
+	 * 根据字符集将汉字转换成声母类型、
+	 * @param str 汉字
+	 * @param charsetName 字符集
+	 * @return 声母
+	 * @throws UnsupportedEncodingException 字符集错误
+	 */
+	public static String getPinYin(String str,String charsetName) throws UnsupportedEncodingException{
+		return getPinYin(str,SHENG_MU,charsetName);
+	}
+	/**
+	 * 根据类型将汉字转换成拼音
 	 * @param str 汉字
 	 * @param type 声母=1,全拼=2,词组=3,语句=4
 	 * @return 拼音
