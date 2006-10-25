@@ -10,11 +10,21 @@ import java.io.UnsupportedEncodingException;
 
 /**
  * @author 徐晨阳
- * @version 1.0
+ * @version 1.2.18
  */
 public abstract class PinYin {	
 	private static String HAN_ZI;
 	private static final String ZI_MU="[abcdefghijklmnopqrstuvwxyz]";
+	private static Config config;
+	/**
+	 * 获取配置信息
+	 * @return 配置信息
+	 */
+	private static Config getConfig(){
+		if(config==null)
+			config=new Config();
+		return config;
+	}
 	/**
 	 * 声母
 	 */
@@ -30,7 +40,7 @@ public abstract class PinYin {
 	/**
 	 * 语句
 	 */
-	public static final int YU_JU=4;
+	public static final int YU_JU=4;	
 	/**返回声母
 	 *  获取汉字编码表
 	 * @return hanZi 汉字编码表
@@ -104,6 +114,10 @@ public abstract class PinYin {
 	public static String getPinYin(String str,int type){
 		if(str==null||str.length()==0)
 			return null;
+
+		//根据配置文件修改成半角状态
+		str=getConfig().change(str);
+
 		StringBuffer re=new StringBuffer();
 		switch (type) {
 		case QUAN_PIN:
@@ -117,7 +131,7 @@ public abstract class PinYin {
 					//第二个字如果是[aeiou]的话要加`号
 					String temp=zhuYin(str.substring(i,i+1)).substring(0,1);
 					if(temp.equals("a")||temp.equals("e")||temp.equals("i")||temp.equals("o")||temp.equals("u"))
-						re.append("`");
+						re.append(getConfig().getSPACE());
 				}
 				re.append(zhuYin(str.substring(i,i+1)));
 			}
@@ -135,16 +149,5 @@ public abstract class PinYin {
 		break;
 		}
 		return re.toString();
-	}
-	/**
-	 * 测试输出
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		System.out.println(PinYin.getPinYin("俺穿棉袄去西安!"));
-		System.out.println(PinYin.getPinYin("俺穿棉袄去西安!",PinYin.CI_ZU));
-		System.out.println(PinYin.getPinYin("俺穿棉袄去西安!",PinYin.QUAN_PIN));
-		System.out.println(PinYin.getPinYin("俺穿棉袄去西安!",PinYin.SHENG_MU));
-		System.out.println(PinYin.getPinYin("俺穿棉袄去西安!",PinYin.YU_JU));
 	}
 }
