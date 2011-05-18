@@ -3,9 +3,11 @@
  */
 package com.urlshow.pinyin;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.Ignore;
+import java.io.UnsupportedEncodingException;
+
 import org.junit.Test;
 
 /**
@@ -29,11 +31,11 @@ public class PinYinTest {
 	 * Test method for
 	 * {@link com.urlshow.pinyin.PinYin#getPinYin(java.lang.String, java.lang.String)}
 	 * .
+	 * @throws UnsupportedEncodingException 
 	 */
 	@Test
-	@Ignore
-	public void testGetPinYinStringString() {
-		fail("Not yet implemented");
+	public void testGetPinYinStringString() throws UnsupportedEncodingException {
+		assertEquals("n", PinYin.getPinYin("你", "UTF-8"));
 	}
 
 	/**
@@ -61,22 +63,27 @@ public class PinYinTest {
 	 * Test method for
 	 * {@link com.urlshow.pinyin.PinYin#getPinYin(java.lang.String, com.urlshow.pinyin.ToneType, java.lang.String)}
 	 * .
+	 * @throws UnsupportedEncodingException 
 	 */
 	@Test
-	@Ignore
-	public void testGetPinYinStringToneTypeString() {
-		fail("Not yet implemented");
+	public void testGetPinYinStringToneTypeString() throws UnsupportedEncodingException {
+		assertEquals("ni3", PinYin.getPinYin("你", ToneType.QUAN_PIN, "UTF-8"));
 	}
 
 	/**
 	 * Test method for
 	 * {@link com.urlshow.pinyin.PinYin#getPinYin(java.lang.String, com.urlshow.pinyin.ToneType, java.lang.String, boolean)}
 	 * .
+	 * @throws UnsupportedEncodingException 
 	 */
 	@Test
-	@Ignore
-	public void testGetPinYinStringToneTypeStringBoolean() {
-		fail("Not yet implemented");
+	public void testGetPinYinStringToneTypeStringBoolean() throws UnsupportedEncodingException {
+		assertEquals("nǐ", PinYin.getPinYin("你", ToneType.QUAN_PIN, null, true));
+		assertEquals("ni3", PinYin.getPinYin("你", ToneType.QUAN_PIN, null, false));
+		assertEquals("nǐ", PinYin.getPinYin("你", ToneType.QUAN_PIN, "", true));
+		assertEquals("ni3", PinYin.getPinYin("你", ToneType.QUAN_PIN, "", false));
+		assertEquals("nǐ", PinYin.getPinYin("你", ToneType.QUAN_PIN, "UTF-8", true));
+		assertEquals("ni3", PinYin.getPinYin("你", ToneType.QUAN_PIN, "UTF-8", false));
 	}
 
 	/**
@@ -84,19 +91,23 @@ public class PinYinTest {
 	 * {@link com.urlshow.pinyin.PinYin#getPinYin(java.lang.String, boolean)}.
 	 */
 	@Test
-	@Ignore
 	public void testGetPinYinStringBoolean() {
-		fail("Not yet implemented");
+		assertEquals("n", PinYin.getPinYin("你", true));
+		assertEquals("n", PinYin.getPinYin("你", false));
 	}
 
 	/**
 	 * Test method for
 	 * {@link com.urlshow.pinyin.PinYin#getPinYin(java.lang.String, java.lang.String, boolean)}
 	 * .
+	 * @throws UnsupportedEncodingException 
 	 */
 	@Test
-	public void testGetPinYinStringStringBoolean() {
-		assertEquals("傲慢", PinYin.getPinYin("傲慢", true), "àm");
+	public void testGetPinYinStringStringBoolean() throws UnsupportedEncodingException {
+		assertEquals("", PinYin.getPinYin(null, "UTF-8", true));
+		assertEquals("", PinYin.getPinYin("", "UTF-8", true));
+		assertEquals("傲慢", PinYin.getPinYin("傲慢", "UTF-8", true), "àm");
+		assertEquals("傲慢", PinYin.getPinYin("傲慢", "UTF-8", false), "am");
 	}
 
 	/**

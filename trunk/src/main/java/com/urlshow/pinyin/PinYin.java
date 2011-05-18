@@ -50,8 +50,8 @@ public class PinYin {
 			String charsetName, boolean yb) throws UnsupportedEncodingException {
 		if (charsetName == null || charsetName.length() == 0
 				|| charsetName.equalsIgnoreCase("utf-8"))
-			return getPinYin(str, type);
-		return getPinYin(new String(str.getBytes(charsetName), "UTF-8"), type);
+			return getPinYin(str, type, yb);
+		return getPinYin(new String(str.getBytes(charsetName), "UTF-8"), type, yb);
 	}
 
 	/**
